@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Chat - ログインエラー</title>
+    <link rel="stylesheet" href="{{ request.scope['prefix'] }}/static/css/loginer.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+              <!-- Changed from robot to warning icon -->
+            </div>
+            <div class="logo-text">
+              <h1>AI Chat</h1>
+              <!-- Keep same title -->
+              <p>ログインエラー - 認証に失敗しました</p>
+              <!-- Modified subtitle -->
+            </div>
+          </div>
+        </div>
+
+        <div class="login-body">
+          <!-- Welcome text replaced with error message -->
+          <div class="welcome-text">
+            <h2>認証エラー</h2>
+            <p>ログイン処理中に問題が発生しました。</p>
+          </div>
+
+          <!-- Error details section -->
+          <div class="error-details">
+            <div class="error-icon-small">
+              <i class="fas fa-times-circle"></i>
+            </div>
+
+            <div class="error-message-box">
+              {% if error_type %}
+              <div class="error-type"><strong>エラータイプ:</strong> <span>{{ error_type }}</span></div>
+              {% endif %} {% if error_description %}
+              <div class="error-description"><strong>詳細:</strong> <span>{{ error_description }}</span></div>
+              {% else %}
+              <div class="error-description">
+                <p>不明なエラーが発生しました。もう一度お試しください。</p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Action buttons in place of login button -->
+          <div class="login-actions">
+            <!-- Back to login button -->
+            <button class="action-btn back-btn" id="back-to-login-btn">
+              <div class="btn-icon">
+                <i class="fas fa-arrow-left"></i>
+              </div>
+              <span class="btn-text">ログイン画面に戻る</span>
+            </button>
+
+            <!-- Retry login button -->
+            <!-- <button class="action-btn retry-btn" id="retry-login-btn">
+              <div class="btn-icon">
+                <i class="fas fa-redo"></i>
+              </div>
+              <span class="btn-text">もう一度試す</span>
+            </button> -->
+          </div>
+
+          <!-- Error info instead of login info -->
+          <div class="login-info">
+            <p>
+              <i class="fas fa-exclamation-circle"></i>
+              問題が続く場合は、システム管理者にお問い合わせください
+            </p>
+            <p>
+              <i class="fas fa-clock"></i>
+              セッションの有効期限が切れている可能性があります
+            </p>
+          </div>
+        </div>
+
+        <div class="login-footer">
+          <p>© 2026 AI Chat Platform. All rights reserved.</p>
+          <p>
+            <a href="#">プライバシーポリシー</a> | <a href="#">利用規約</a> |
+            <a href="#">ヘルプ</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const backBtn = document.getElementById('back-to-login-btn');
+        const retryBtn = document.getElementById('retry-login-btn');
+        const BASE_PATH = '{{ request.scope["prefix"] }}';
+
+        // Back to login page
+        backBtn.addEventListener('click', function () {
+          window.location.href = BASE_PATH + '/logout';
+        });
+
+        // Parse error from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorParam = urlParams.get('error');
+        const errorDesc = urlParams.get('error_description');
+
+        if (errorParam) {
+          // Map error codes to Japanese messages
+          const errorMap = {
+            access_denied: 'アクセスが拒否されました',
+            unauthorized_client: '認証されていないクライアントです',
+            invalid_request: '無効なリクエストです',
+            server_error: 'サーバーエラーが発生しました',
+            temporarily_unavailable: '一時的に利用できません',
+            oauth_error: 'OAuth認証エラー',
+            user_not_found: 'ユーザーが見つかりません',
+          };
+
+          // Update error display if elements exist
+          const errorTypeElement = document.querySelector('.error-type span');
+          const errorDescElement = document.querySelector('.error-description span');
+
+          if (errorTypeElement) {
+            errorTypeElement.textContent = errorMap[errorParam] || errorParam;
+          }
+
+          if (errorDescElement && errorDesc) {
+            errorDescElement.textContent = decodeURIComponent(errorDesc);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}AI Chatbot{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <!-- Tippy.js for tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/shift-away.css" />
+
+    <link rel="stylesheet" href="{{ request.scope['prefix'] }}/static/css/sidebar.css" />
+    <link rel="stylesheet" href="{{ request.scope['prefix'] }}/static/css/chat.css" />
+    <link rel="stylesheet" href="{{ request.scope['prefix'] }}/static/css/pdf-viewer.css" />
+    <link rel="stylesheet" href="{{ request.scope['prefix'] }}/static/css/minimal-header.css" />
+    <link rel="stylesheet" href="{{ request.scope['prefix'] }}/static/css/displaywait.css" />
+    <script type="application/json" id="user-data">
+      {{ user | tojson | safe }}
+    </script>
+    <script>
+      (function () {
+        var el = document.getElementById('user-data');
+        try {
+          window.userInfo = el && el.textContent ? JSON.parse(el.textContent) : null;
+        } catch (e) {
+          window.userInfo = null;
+        }
+      })();
+    </script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#2563eb',
+              'primary-light': '#dbeafe',
+            },
+          },
+        },
+      };
+    </script>
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body class="bg-gray-100 h-screen overflow-hidden">
+    <div class="flex h-screen">
+      <!-- Include Sidebar -->
+      {% include 'sidebar.html' %}
+
+      <!-- Main Content -->
+      <main class="flex-1 flex flex-col overflow-hidden bg-gray-100">
+        <!-- Header Minimal -->
+        <header id="main-header" class="main-header">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" data-tippy-content="メニュー">
+            <i class="fa-solid fa-angles-up fa-rotate-90"></i>
+          </button>
+
+          <div class="header-spacer">
+            <h1 class="header-title">{{ HEADER_TITLE }}</h1>
+          </div>
+
+          <!-- Share button + Status indicator -->
+          <div class="header-right">
+            <div class="header-status">
+              <div id="status-indicator" class="status-indicator hidden">
+                <div class="status-icon">
+                  <span class="material-symbols-outlined">directions_run</span>
+                </div>
+              </div>
+              <button id="share-btn" class="share-btn" data-tippy-content="共有する">
+                <i class="fas fa-share-alt"></i>
+              </button>
+            </div>
+          </div>
+        </header>
+        <!-- PDF Loading Overlay -->
+        <div id="pdf-loading-overlay" class="pdf-loading hidden">
+          <div class="spinner"></div>
+          <div class="loading-text">Loading PDF...</div>
+        </div>
+
+        <!-- Content Area -->
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+
+    <!-- User Menu Dropdown -->
+    <div id="user-menu-dropdown" class="user-menu-dropdown">
+      <button class="user-menu-item" id="settings-menu-btn">
+        <i class="fas fa-cog"></i>
+        <span>設定</span>
+      </button>
+      <div class="user-menu-divider"></div>
+      <button class="user-menu-item logout-item" id="logout-menu-btn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>ログアウト</span>
+      </button>
+    </div>
+    <script>
+      window.BASE_PATH = '{{ request.scope["prefix"] }}';
+      AZURE_BLOB_CONTAINER = '{{ AZURE_BLOB_CONTAINER }}';
+      HEADER_TITLE = '{{ HEADER_TITLE }}';
+      WELCOME_MESSAGE = '{{ WELCOME_MESSAGE }}';
+      CHAT_API_KEY = '{{ CHAT_API_KEY }}';
+      CHAT_API_URL = '{{ CHAT_API_URL }}';
+      QUESTION_DEFAULT = '{{ QUESTION_DEFAULT }}';
+      function GetCHAT_API_KEY() {
+        return '{{ CHAT_API_KEY }}';
+      }
+      function GetCHAT_API_URL() {
+        return '{{ CHAT_API_URL }}';
+      }
+    </script>
+    <script src="{{ request.scope['prefix'] }}/static/js/sidebar.js"></script>
+    {% block extra_scripts %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,114 @@
+<aside id="sidebar" class="sidebar-collapsed bg-white border-r border-gray-200 transition-all duration-300 flex flex-col relative">
+  <!-- Sidebar Content -->
+  <div class="flex flex-col h-full overflow-hidden">
+    <!-- Logo/Icon Header - Click to toggle -->
+    <div class="sidebar-header-wrapper mx-1">
+      <div class="sidebar-header" id="sidebar-header" data-tippy-content="伸ばす">
+        <div class="sidebar-logo" id="sidebar-logo">
+          <i class="fas fa-robot"></i>
+        </div>
+
+        <!-- Expand icon - only visible when collapsed AND hovering -->
+        <button class="sidebar-expand-icon" id="sidebar-expand-icon">
+          <i class="fa-solid fa-circle-chevron-up fa-rotate-90"></i>
+        </button>
+
+        <!-- Title visible when expanded -->
+        <span class="sidebar-title" id="sidebar-title">🛠️ 設定</span>
+        <button class="sidebar-collapse-button" id="sidebar-collapse-button" data-tippy-content="縮む">
+          <div class="sidebar-collapse-icon" id="sidebar-collapse-icon">
+            <i class="fa-solid fa-angles-up fa-rotate-270"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 px-2 py-1 space-y-1 overflow-hidden">
+      <!-- <a href="#" class="nav-item nav-item-active" id="new-conversation-btn" data-tippy-content="新規">
+        <i class="fas fa-plus"></i>
+        <span class="nav-label">新規会話</span>
+      </a> -->
+      <div class="px-2">
+        <!-- LLM Model Selection -->
+        <div class="debug-item">
+          <!-- <div class="debug-item-icon">
+            <i class="fas fa-brain"></i>
+          </div> -->
+          <div class="debug-item-content">
+            <label class="debug-item-label text-sm">🧠 LLMモデル選択:</label>
+            <select id="llm-model-select" class="debug-select ps-3">
+              <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+              <option value="gpt-4">GPT-4</option>
+              <option value="gpt-4-turbo">GPT-4 Turbo</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Vector Search Threshold -->
+        <div class="debug-item">
+          <!-- <div class="debug-item-icon">
+            <i class="fas fa-search"></i>
+          </div> -->
+          <div class="debug-item-content">
+            <label class="debug-item-label text-sm">🔍 ベクトル・文字検索の閾値調整:</label>
+            <div class="debug-slider-container">
+              <input type="range" id="vector-threshold-slider" class="debug-slider" min="0" max="100" value="75" />
+              <span id="vector-threshold-value" class="debug-slider-value">0.75</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text Search Threshold -->
+        <!-- <div class="debug-item">
+          <div class="debug-item-icon">
+            <i class="fas fa-font"></i>
+          </div>
+          <div class="debug-item-content">
+            <label class="debug-item-label">文字検索閾値</label>
+            <div class="debug-slider-container">
+              <input type="range" id="text-threshold-slider" class="debug-slider" min="0" max="100" value="65" />
+              <span id="text-threshold-value" class="debug-slider-value">0.65</span>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </nav>
+
+    <!-- Footer with User Info -->
+    <div class="border-t border-gray-200 p-2">
+      <button class="user-info-item" id="user-info-btn" data-tippy-content="ユーザー情報">
+        <div class="user-avatar-small">{{ user.name[:1] if user.name else 'U' }}</div>
+        <div class="user-details">
+          <div class="user-name">{{ user.name or 'ユーザー' }}</div>
+          <div class="user-email">{{ user.email or 'user@example.com' }}</div>
+        </div>
+      </button>
+    </div>
+  </div>
+</aside>
+<div id="logout-modal" class="modal-overlay hidden">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 class="modal-title">ログアウト確認</h3>
+      <button class="modal-close-btn" id="modal-close-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p>ログアウトしますか？</p>
+      <p class="modal-subtext">再度ログインするには、認証が必要になります。</p>
+    </div>
+
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-cancel" id="modal-cancel-btn">キャンセル</button>
+      <button class="modal-btn modal-btn-confirm" id="modal-confirm-btn">
+        ログアウト
+        <div class="modal-icon">
+          <i class="fas fa-sign-out-alt"></i>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

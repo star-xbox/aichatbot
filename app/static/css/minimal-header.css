@@ -1,0 +1,141 @@
+/* ===== MINIMAL HEADER ===== */
+.main-header {
+  background: #f3f4f6;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  position: relative;
+  z-index: 40;
+  border: none;
+  box-shadow: none;
+}
+
+.sidebar-toggle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: #e5e7eb;
+  color: #374151;
+  cursor: e-resize;
+}
+
+.sidebar-toggle-btn i {
+  font-size: 16px;
+}
+
+.header-spacer {
+  flex: 1;
+  align-items: center;
+  justify-items: center;
+}
+
+.header-spacer .header-title {
+  font-size: 25px;
+  color: #363638;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.share-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.share-btn:hover {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.share-btn i {
+  font-size: 18px;
+}
+
+/* Status indicator */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  background: transparent;
+}
+
+.status-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.material-symbols-outlined {
+  font-size: 22px;
+  line-height: 1;
+  color: #5f646d;
+  transition: opacity 0.12s ease, filter 0.12s ease;
+}
+/* 
+.icon-fade {
+  opacity: 0;
+  filter: blur(1px);
+} */
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-header {
+    padding: 6px 12px;
+    height: 44px;
+  }
+
+  .sidebar-toggle-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .sidebar-toggle-btn i {
+    font-size: 16px;
+  }
+
+  .share-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .share-btn i {
+    font-size: 16px;
+  }
+
+  .header-status {
+    gap: 6px;
+  }
+}

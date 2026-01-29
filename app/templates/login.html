@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Chat - セキュアチャットアシスタント</title>
+    <link rel="stylesheet" href="{{ request.scope['prefix'] }}/static/css/login.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="logo-text">
+              <h1>AI Chat</h1>
+              <p>セキュアなチャットアシスタント</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-body">
+          <div class="welcome-text">
+            <h2>ようこそ</h2>
+            <p>AIチャットアシスタントで、安全かつ効率的なコミュニケーションを実現します</p>
+          </div>
+
+          <div class="login-actions">
+            <button class="microsoft-login-btn" id="microsoft-login-btn">
+              <div class="microsoft-logo">
+                <div class="microsoft-square"></div>
+                <div class="microsoft-square"></div>
+                <div class="microsoft-square"></div>
+                <div class="microsoft-square"></div>
+              </div>
+              <span class="btn-text">Microsoft アカウントでログイン</span>
+              <div class="btn-spinner" style="display: none">
+                <i class="fas fa-spinner fa-spin"></i>
+              </div>
+            </button>
+          </div>
+
+          <div class="login-info">
+            <p>
+              <i class="fas fa-shield-alt"></i>
+              セキュアなMicrosoft認証を使用しています
+            </p>
+            <p>
+              <i class="fas fa-lock"></i>
+              すべてのデータは暗号化されて保護されます
+            </p>
+          </div>
+        </div>
+
+        <div class="login-footer">
+          <p>© 2026 AI Chat Platform. All rights reserved.</p>
+          <p>
+            <a href="#">プライバシーポリシー</a> | <a href="#">利用規約</a> |
+            <a href="#">ヘルプ</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const loginBtn = document.getElementById('microsoft-login-btn');
+        const btnText = loginBtn.querySelector('.btn-text');
+        const btnSpinner = loginBtn.querySelector('.btn-spinner');
+
+        loginBtn.addEventListener('click', function () {
+          // Show loading state in button
+          loginBtn.disabled = true;
+          loginBtn.style.opacity = '0.7';
+          btnText.style.display = 'none';
+          btnSpinner.style.display = 'block';
+
+          // Redirect to Microsoft OAuth endpoint
+          const BASE_PATH = '{{ request.scope["prefix"] }}';
+
+          setTimeout(() => {
+            window.location.href = BASE_PATH + '/auth/microsoft';
+          }, 500);
+        });
+
+        // Auto-redirect if there's an error parameter in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+          alert('ログインに失敗しました。もう一度お試しください。');
+        }
+      });
+    </script>
+  </body>
+</html>
